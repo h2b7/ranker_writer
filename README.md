@@ -1,5 +1,5 @@
 Script to get a json `key_tree` by `key` and saving the content of the `key` by `key_tree`
----- yet another parser (not searched the www for scripts that solving my task)
+- yet another parser (not searched the www for scripts that may solve my task)
 ```json
 {"a": 1, "b": 2, "d": {"c": 3}}		# 'root -> d -> c'
 {"a": 1, "b": 2, "d": [{"c": 3}]}	# 'root -> d -> c'
