@@ -1,0 +1,11 @@
+# test files
+*-ignore_me.*
+
+# python
+env
+__pycache__/*
+*/__pycache__/*
+*.pyc
+
+# vim
+*.swp
