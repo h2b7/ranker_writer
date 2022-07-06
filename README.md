@@ -45,8 +45,13 @@ python src/run.py
 #### TODO
 - [x] nested json
 - [x] json in the list
-- [ ] check for multiple keys
+- [x] check for multiple keys
+	- [ ] return multiple keys (iterable result)
+	- [ ] unique multiple keys (not every single item in the list)
 - [ ] check for keys by value
+- [ ] access to the data in the list
+	- [x] added default index = 0
+	- [ ] add and get the index from `key_tree`
 - [ ] handle errors on searching for a non string key
 - [ ] handle errors on request and parsing
 	- [ ] check for no url

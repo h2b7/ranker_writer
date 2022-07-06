@@ -60,7 +60,14 @@ class PageDataTree:
   def join_tree(*args: tuple[str]):
     return TREE_DELIMITER.join(args)
 
-  def tree_by_key(self, data: Optional[Any] = None, key: str = '', ans: str = TREE_ROOT) -> str:
+  def process_result(self, result: str, result_to: str):
+    # NOTE: python's new feature
+    match result_to:
+      case 'print':
+        print(result)
+
+  def tree_by_key(self, data: Optional[Any] = None, key: str = '',
+                        ans: str = TREE_ROOT, result_to: str = 'return') -> str:
     """Returns str: ex. A -> B -> C -> *key
     """
     if data is None:
@@ -70,15 +77,21 @@ class PageDataTree:
       # NOTE: list doesn't have a key
       # TODO: square braces around key
       for item in data:
-        fnd = self.tree_by_key(item, key, ans)
+        fnd = self.tree_by_key(item, key, ans, result_to=result_to)
         if fnd:
-          return fnd
+          if (result_to == 'return'):
+            return fnd
+          self.process_result(fnd, result_to)
 
     # TODO: multiple keys ??
     if isinstance(data, dict):
       for data_key, data_value in data.items():
         if data_key == key:
-          return self.join_tree(ans, data_key)
+          fnd = self.join_tree(ans, data_key)
+          if (result_to == 'return'):
+            return fnd
+          self.process_result(fnd, result_to)
+          continue
         if data_key is None:
           continue
         # TODO: return key or value ?
@@ -86,9 +99,11 @@ class PageDataTree:
           return 'fnd: 2'
         if data_value is None:
           continue
-        fnd = self.tree_by_key(data_value, key, self.join_tree(ans, data_key))
+        fnd = self.tree_by_key(data_value, key, self.join_tree(ans, data_key), result_to=result_to)
         if fnd:
-          return fnd
+          if (result_to == 'return'):
+            return fnd
+          self.process_result(fnd, result_to)
 
   def data_by_tree(self, tree: str) -> dict:
     tree_keys = tree.split(TREE_DELIMITER)
@@ -98,6 +113,10 @@ class PageDataTree:
 
     for key in tree_keys:
       inner_data = inner_data[key]
+
+      # FIXFOR: key in the list
+      if isinstance(inner_data, list):
+        inner_data = inner_data[0]
 
     return inner_data
 
