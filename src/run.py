@@ -2,11 +2,7 @@ import os
 import json
 from typing import Optional, Any
 
-
-DATA_DIRECTORY = 'data'
-JSON_EXTENSION = '.json'
-TREE_ROOT = 'root'
-TREE_DELIMITER = ' -> '
+from config import FD, Tree
 
 
 class GetPageData:
@@ -19,15 +15,15 @@ class GetPageData:
     dirname = os.path.dirname(filename)
 
     # FIXFOR: full_path to the file
-    if (not dirname) or (dirname != DATA_DIRECTORY):
-      path = os.path.join(DATA_DIRECTORY, filename)
+    if (not dirname) or (dirname != FD.ROOT_DIRECTORY):
+      path = os.path.join(FD.ROOT_DIRECTORY, filename)
     else:
       path = filename
 
-    if path.endswith(JSON_EXTENSION):
+    if path.endswith(FD.FILE_EXTENSION):
       return path
 
-    return f"{path}{JSON_EXTENSION}"
+    return f"{path}{FD.FILE_EXTENSION}"
 
   def write_to_json(self, data: dict, write_to: str, indent: int = 4) -> None:
     write_to = self.join_path(write_to)
@@ -50,7 +46,7 @@ class PageDataTree:
   # TODO: check for other types
   @staticmethod
   def join_tree(*args: tuple[str]):
-    return TREE_DELIMITER.join(args)
+    return Tree.DELIMITER.join(args)
 
   def process_result(self, result: str, result_to: str):
     # NOTE: python's new feature
@@ -59,7 +55,7 @@ class PageDataTree:
         print(result)
 
   def tree_by_key(self, data: Optional[Any] = None, key: str = '',
-                        ans: str = TREE_ROOT, result_to: str = 'return') -> str:
+                        ans: str = Tree.ROOT, result_to: str = 'return') -> str:
     """Returns str: ex. A -> B -> C -> *key
     """
     if data is None:
@@ -98,7 +94,7 @@ class PageDataTree:
           self.process_result(fnd, result_to)
 
   def data_by_tree(self, tree: str) -> dict:
-    tree_keys = tree.split(TREE_DELIMITER)
+    tree_keys = tree.split(Tree.DELIMITER)
 
     # *pointer
     inner_data = self.data
@@ -125,10 +121,10 @@ if __name__ == '__main__':
   # 'root -> props -> pageProps -> listContext -> currentPageData -> list -> user -> userAccount -> clientIP'
   # ['props', 'pageProps', 'listContext', 'currentPageData', 'list', 'user']
   parent_level = 2
-  target_tree = pdt_tree.rsplit(TREE_DELIMITER, maxsplit=parent_level)[0]
+  target_tree = pdt_tree.rsplit(Tree.DELIMITER, maxsplit=parent_level)[0]
 
   # replaces 'root ->' to ''
-  target_tree = target_tree.replace(pdt.join_tree(TREE_ROOT, ''), '')
+  target_tree = target_tree.replace(pdt.join_tree(Tree.ROOT, ''), '')
 
   target_data = pdt.data_by_tree(target_tree)
 
