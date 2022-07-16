@@ -2,7 +2,7 @@ Script to get a json `key_tree` by `key` and saving the content of the `key` by 
 - yet another parser (not searched the www for scripts that may solve my task)
 ```json
 {"a": 1, "b": 2, "d": {"c": 3}}		# 'root -> d -> c'
-{"a": 1, "b": 2, "d": [{"c": 3}]}	# 'root -> d -> c'
+{"a": 1, "b": 2, "d": [{"c": 3}]}	# 'root -> d -> [0] -> c'
 ```
 
 #### Dependencies
@@ -29,6 +29,7 @@ python src/run.py
 .
 ├── src
 │   ├── __init__.py
+│   ├── config.py
 │   └── run.py
 ├── tests
 │   ├── __init__.py
