@@ -2,9 +2,6 @@ import os
 import json
 from typing import Optional, Any
 
-import requests
-from bs4 import BeautifulSoup as bs
-
 
 DATA_DIRECTORY = 'data'
 JSON_EXTENSION = '.json'
@@ -31,11 +28,6 @@ class GetPageData:
       return path
 
     return f"{path}{JSON_EXTENSION}"
-
-  def get(self) -> json:
-    # TODO: handle error on not finding/returning a json
-    soup = bs(requests.get(self.url).text, 'lxml')
-    return json.loads(soup.find('script', id='__NEXT_DATA__').text)
 
   def write_to_json(self, data: dict, write_to: str, indent: int = 4) -> None:
     write_to = self.join_path(write_to)
@@ -122,13 +114,9 @@ class PageDataTree:
 
 
 if __name__ == '__main__':
-  target_url = "https://www.ranker.com/list/most-important-locations-in-star-wars-universe/john-saavedra"
+  gpd = GetPageData()
+  target_filename = 'ranker_writer-ignore_me'
 
-  gpd = GetPageData(target_url)
-  target_filename = 'ranker_writer'
-
-  gpd_data = gpd.get()
-  gpd.write_to_json(data=gpd_data, write_to=target_filename)
   gpd_data = gpd.load_from_json(target_filename)
 
   pdt = PageDataTree(gpd_data)
