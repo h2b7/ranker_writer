@@ -8,3 +8,4 @@ class FD:
 class Tree:
   ROOT = 'root'
   DELIMITER = ' -> '
+  LIST_INDEX_WRAPPER = "[{index}]"

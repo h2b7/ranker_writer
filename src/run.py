@@ -45,8 +45,15 @@ class PageDataTree:
 
   # TODO: check for other types
   @staticmethod
-  def join_tree(*args: tuple[str]):
-    return Tree.DELIMITER.join(args)
+  def join_tree(tree: str, key: str, list_index: Optional[int] = None):
+    keys = [tree]
+
+    if list_index is not None:
+      keys.append(Tree.LIST_INDEX_WRAPPER.format(index=list_index))
+
+    keys.append(key)
+
+    return Tree.DELIMITER.join(keys)
 
   def process_result(self, result: str, result_to: str):
     # NOTE: python's new feature
@@ -55,7 +62,8 @@ class PageDataTree:
         print(result)
 
   def tree_by_key(self, data: Optional[Any] = None, key: str = '',
-                        ans: str = Tree.ROOT, result_to: str = 'return') -> str:
+                        ans: str = Tree.ROOT, list_index: Optional[int] = None,
+                        result_to: str = 'return') -> str:
     """Returns str: ex. A -> B -> C -> *key
     """
     if data is None:
@@ -64,8 +72,8 @@ class PageDataTree:
     if isinstance(data, list):
       # NOTE: list doesn't have a key
       # TODO: square braces around key
-      for item in data:
-        fnd = self.tree_by_key(item, key, ans, result_to=result_to)
+      for idx, item in enumerate(data):
+        fnd = self.tree_by_key(item, key, ans, list_index=idx, result_to=result_to)
         if fnd:
           if (result_to == 'return'):
             return fnd
@@ -75,11 +83,12 @@ class PageDataTree:
     if isinstance(data, dict):
       for data_key, data_value in data.items():
         if data_key == key:
-          fnd = self.join_tree(ans, data_key)
+          fnd = self.join_tree(ans, data_key, list_index)
           if (result_to == 'return'):
             return fnd
           self.process_result(fnd, result_to)
           continue
+
         if data_key is None:
           continue
         # TODO: return key or value ?
@@ -87,24 +96,30 @@ class PageDataTree:
           return 'fnd: 2'
         if data_value is None:
           continue
-        fnd = self.tree_by_key(data_value, key, self.join_tree(ans, data_key), result_to=result_to)
+
+        fnd = self.tree_by_key(
+          data_value, key,
+          self.join_tree(ans, data_key, list_index),
+          list_index=list_index, result_to=result_to
+        )
         if fnd:
           if (result_to == 'return'):
             return fnd
           self.process_result(fnd, result_to)
 
   def data_by_tree(self, tree: str) -> dict:
-    tree_keys = tree.split(Tree.DELIMITER)
+    tree = tree.replace(
+      self.join_tree(Tree.ROOT, ''), '', 1
+    )
 
-    # *pointer
+    tree_keys = tree.split(Tree.DELIMITER)
     inner_data = self.data
 
     for key in tree_keys:
-      inner_data = inner_data[key]
-
-      # FIXFOR: key in the list
-      if isinstance(inner_data, list):
-        inner_data = inner_data[0]
+      if key.startswith(Tree.LIST_INDEX_WRAPPER[0]):
+        inner_data = inner_data[int(key[1:-1])]
+      else:
+        inner_data = inner_data[key]
 
     return inner_data
 
@@ -112,11 +127,13 @@ class PageDataTree:
 if __name__ == '__main__':
   gpd = GetPageData()
   target_filename = 'ranker_writer-ignore_me'
+  # target_filename = 'test_scratch'
 
   gpd_data = gpd.load_from_json(target_filename)
 
   pdt = PageDataTree(gpd_data)
-  pdt_tree = pdt.tree_by_key(key='clientIP')
+  # pdt_tree = pdt.tree_by_key(key='user', result_to='print')
+  pdt_tree = 'root -> props -> pageProps -> listContext -> currentPageData -> listItems -> [2] -> openListItemContributor -> [2] -> user'
 
   # 'root -> props -> pageProps -> listContext -> currentPageData -> list -> user -> userAccount -> clientIP'
   # ['props', 'pageProps', 'listContext', 'currentPageData', 'list', 'user']
@@ -127,5 +144,6 @@ if __name__ == '__main__':
   target_tree = target_tree.replace(pdt.join_tree(Tree.ROOT, ''), '')
 
   target_data = pdt.data_by_tree(target_tree)
+  print(target_data)
 
-  gpd.write_to_json(target_data, 'key_content')
+  # gpd.write_to_json(target_data, 'key_content')
