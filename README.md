@@ -14,6 +14,7 @@ pytest -V	# 6.2.5
 
 #### Start
 ```bash
+# no need to if `requirements.txt` is empty
 python -m venv env && source env/bin/activate
 pip install -r requirements.txt
 
@@ -30,10 +31,10 @@ python src/run.py
 ├── src
 │   ├── __init__.py
 │   ├── config.py
+│   ├── utils.py
 │   └── run.py
 ├── tests
 │   ├── __init__.py
-│   ├── test_get_page_data.py
 │   └── test_page_data_tree.py
 ├── data
 │   ├── key_content-ignore_me.json
@@ -53,9 +54,8 @@ python src/run.py
 - [x] access to the data in the list
 	- [x] add and get the index from `key_tree`
 - [ ] handle errors on searching for a non string key
-- [ ] handle errors on request and parsing
-	- [ ] check for no url
-- [ ] fix errors on reading and writing to the json file without filename
-	- [ ] add tests
+- [x] fix errors on reading and writing to the json file without filename
+	- [x] no need to test for writing
+	- [x] raising an error `FileNotFoundError` for not valid input filepath
 
 Coding process: https://youtu.be/DkBAIKMN7x0

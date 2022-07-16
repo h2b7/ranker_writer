@@ -2,40 +2,8 @@ import os
 import json
 from typing import Optional, Any
 
+from utils import FileIO
 from config import FD, Tree
-
-
-class GetPageData:
-
-  def __init__(self, url: str = ''):
-    self.url = url
-
-  @staticmethod
-  def join_path(filename: str):
-    dirname = os.path.dirname(filename)
-
-    # FIXFOR: full_path to the file
-    if (not dirname) or (dirname != FD.ROOT_DIRECTORY):
-      path = os.path.join(FD.ROOT_DIRECTORY, filename)
-    else:
-      path = filename
-
-    if path.endswith(FD.FILE_EXTENSION):
-      return path
-
-    return f"{path}{FD.FILE_EXTENSION}"
-
-  def write_to_json(self, data: dict, write_to: str, indent: int = 4) -> None:
-    write_to = self.join_path(write_to)
-
-    with open(write_to, 'w') as ftw:
-      ftw.write(json.dumps(data, indent=indent))
-
-  def load_from_json(self, load_from: str = '') -> json:
-    load_from = self.join_path(load_from)
-
-    with open(load_from, 'r') as ftr:
-      return json.loads(ftr.read())
 
 
 class PageDataTree:
@@ -125,11 +93,16 @@ class PageDataTree:
 
 
 if __name__ == '__main__':
-  gpd = GetPageData()
+  target_filepath = os.path.join(
+    FD.ROOT_DIRECTORY, 'ranker_writer-ignore_me.json'
+  )
+
+  file_io = FileIO(target_filepath)
+
   target_filename = 'ranker_writer-ignore_me'
   # target_filename = 'test_scratch'
 
-  gpd_data = gpd.load_from_json(target_filename)
+  gpd_data = file_io.load()
 
   pdt = PageDataTree(gpd_data)
   # pdt_tree = pdt.tree_by_key(key='user', result_to='print')
