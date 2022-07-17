@@ -5,6 +5,38 @@ Script to get a json `key_tree` by `key` and saving the content of the `key` by 
 {"a": 1, "b": 2, "d": [{"c": 3}]}	# 'root -> d -> [0] -> c'
 ```
 
+#### Example
+```python3
+# WORKDIR=src
+
+import os
+
+from config import FD
+from utils import FileIO
+from run import PageDataTree
+
+
+i_filepath = os.path.join(
+	FD.ROOT_DIRECTORY, 'ranker_writer-ignore_me.json'
+)
+
+file_io = FileIO(i_filepath)
+file_data = file_io.load()
+
+pdt = PageDataTree(file_data)
+# NOTE: returns the first found `tree`, use `result_to='print'` to print all trees
+pdt_tree = pdt.tree_by_key(key='user', result_to='return')
+
+# use parsed (generated) tree to get the data (value for `key`)
+user_data = pdt.data_by_tree(pdt_tree)
+
+o_filepath = os.path.join(
+	FD.ROOT_DIRECTORY, 'ranker_writer_user_content-ignore_me.json'
+)
+
+file_io.dump(user_data, o_filepath)
+```
+
 #### Dependencies
 ```bash
 pip -V		# 22.1.1
