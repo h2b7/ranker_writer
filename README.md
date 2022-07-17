@@ -1,5 +1,4 @@
 Script to get a json `key_tree` by `key` and saving the content of the `key` by `key_tree`
-- yet another parser (not searched the www for scripts that may solve my task)
 ```json
 {"a": 1, "b": 2, "d": {"c": 3}}		# 'root -> d -> c'
 {"a": 1, "b": 2, "d": [{"c": 3}]}	# 'root -> d -> [0] -> c'
@@ -38,7 +37,7 @@ file_io.dump(user_data, o_filepath)
 ```
 
 #### Example (CLI)
-```python3
+```bash
 # load `input_filepath` and print out the founded tree (with limit if setted)
 python src/run.py -i <input_filepath> -k user # -l <search_limit:int>
 
