@@ -1,0 +1,5 @@
+version: 0.2a0
+	- Add CLI
+
+version: 0.1a2
+	- Update API

@@ -5,7 +5,7 @@ Script to get a json `key_tree` by `key` and saving the content of the `key` by 
 {"a": 1, "b": 2, "d": [{"c": 3}]}	# 'root -> d -> [0] -> c'
 ```
 
-#### Example
+#### Example (API)
 ```python3
 # WORKDIR=src
 
@@ -35,6 +35,15 @@ o_filepath = os.path.join(
 )
 
 file_io.dump(user_data, o_filepath)
+```
+
+#### Example (CLI)
+```python3
+# load `input_filepath` and print out the founded tree (with limit if setted)
+python src/run.py -i <input_filepath> -k user # -l <search_limit:int>
+
+# save data by tree to the `output_filepath`
+python src/run.py -i <input_filepath> -t 'root -> ...' -o <output_filepath>
 ```
 
 #### Dependencies

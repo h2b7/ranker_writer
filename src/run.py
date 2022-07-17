@@ -1,6 +1,7 @@
 import os
 import json
-from typing import Optional, Any
+import argparse
+from typing import Optional, NoReturn
 
 from utils import FileIO
 from config import FD, Tree
@@ -23,15 +24,21 @@ class PageDataTree:
 
     return Tree.DELIMITER.join(keys)
 
-  def process_result(self, result: str, result_to: str):
+  def process_result(self, result: str, result_to: str) -> Optional[NoReturn]:
     # NOTE: python's new feature
     match result_to:
       case 'print':
         print(result)
 
-  def tree_by_key(self, data: Optional[Any] = None, key: str = '',
+    if Tree.SEARCH_LIMIT:
+      Tree.SEARCH_LIMIT -= 1
+
+    if Tree.SEARCH_LIMIT == 0:
+      exit()
+
+  def tree_by_key(self, data: Optional[dict] = None, key: str = '',
                         ans: str = Tree.ROOT, list_index: Optional[int] = None,
-                        result_to: str = 'return') -> str:
+                        result_to: str = 'return') -> Optional[str]:
     """Returns str: ex. A -> B -> C -> *key
     """
     if data is None:
@@ -46,6 +53,7 @@ class PageDataTree:
           if (result_to == 'return'):
             return fnd
           self.process_result(fnd, result_to)
+          continue
 
     # TODO: multiple keys ??
     if isinstance(data, dict):
@@ -59,9 +67,6 @@ class PageDataTree:
 
         if data_key is None:
           continue
-        # TODO: return key or value ?
-        if data_value == key:
-          return 'fnd: 2'
         if data_value is None:
           continue
 
@@ -76,9 +81,10 @@ class PageDataTree:
           self.process_result(fnd, result_to)
 
   def data_by_tree(self, tree: str) -> dict:
-    tree = tree.replace(
-      self.join_tree(Tree.ROOT, ''), '', 1
-    )
+    if Tree.ROOT:
+      tree = tree.replace(
+        self.join_tree(Tree.ROOT, ''), '', 1
+      )
 
     tree_keys = tree.split(Tree.DELIMITER)
     inner_data = self.data
@@ -92,31 +98,51 @@ class PageDataTree:
     return inner_data
 
 
+def main(input_filepath: str, output_filepath: str,
+         key: str, tree: str, limit: Optional[int]):
+    file_io = FileIO(input_filepath)
+    file_data = file_io.load()
+
+    pdt = PageDataTree(file_data)
+
+    if limit:
+      Tree.SEARCH_LIMIT = limit
+
+    if key:
+      if limit:
+        pdt_tree = pdt.tree_by_key(key=key, result_to='print')
+      else:
+        pdt_tree = pdt.tree_by_key(key=key, result_to='return')
+    else:
+      pdt_tree = tree
+
+    if output_filepath:
+      # use parsed (generated) tree to get the data (value for `key`)
+      tree_data = pdt.data_by_tree(pdt_tree)
+
+      file_io.dump(tree_data, output_filepath)
+
+
 if __name__ == '__main__':
-  target_filepath = os.path.join(
-    FD.ROOT_DIRECTORY, 'ranker_writer-ignore_me.json'
-  )
+  parser = argparse.ArgumentParser(description='JSON Tree parser')
+  parser.add_argument('-i', type=str, help='[i]nput filepath')
+  parser.add_argument('-o', type=str, help='[o]utput filepath')
+  parser.add_argument('-k', type=str, help='[k]ey to search (generate) tree for')
+  parser.add_argument('-t', type=str, help='[t]ree to save the data from')
+  parser.add_argument('-l', type=int, help='[l]limit stdout')
+  args = parser.parse_args()
 
-  file_io = FileIO(target_filepath)
+  input_filepath = args.i
+  output_filepath = args.o
+  key = args.k
+  tree = args.t
+  limit = args.l
 
-  target_filename = 'ranker_writer-ignore_me'
-  # target_filename = 'test_scratch'
+  if not input_filepath:
+    print('Input filepath required')
+    exit()
+  if (not key) and (not tree):
+    print('Key or Tree is required')
+    exit()
 
-  gpd_data = file_io.load()
-
-  pdt = PageDataTree(gpd_data)
-  # pdt_tree = pdt.tree_by_key(key='user', result_to='print')
-  pdt_tree = 'root -> props -> pageProps -> listContext -> currentPageData -> listItems -> [2] -> openListItemContributor -> [2] -> user'
-
-  # 'root -> props -> pageProps -> listContext -> currentPageData -> list -> user -> userAccount -> clientIP'
-  # ['props', 'pageProps', 'listContext', 'currentPageData', 'list', 'user']
-  parent_level = 2
-  target_tree = pdt_tree.rsplit(Tree.DELIMITER, maxsplit=parent_level)[0]
-
-  # replaces 'root ->' to ''
-  target_tree = target_tree.replace(pdt.join_tree(Tree.ROOT, ''), '')
-
-  target_data = pdt.data_by_tree(target_tree)
-  print(target_data)
-
-  # gpd.write_to_json(target_data, 'key_content')
+  main(input_filepath, output_filepath, key, tree, limit)
