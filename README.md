@@ -99,3 +99,9 @@ python src/run.py
 	- [x] raising an error `FileNotFoundError` for not valid input filepath
 
 Coding process: https://youtu.be/DkBAIKMN7x0
+
+#### License
+
+GNU GPL-v3
+<br />
+Copyright (c) 2022 Nodiru Gaji (@ames0k0)
