@@ -5,7 +5,7 @@ import argparse
 from typing import Optional
 
 # TODO: FD
-from config import Tree
+from config import Tree, Key
 from utils import FileIO
 
 from run import PageDataTree
@@ -25,7 +25,7 @@ def main(input_filepath: str, output_filepath: str,
     if key:
       pdt_tree = pdt.tree_by_key(
         key=key,
-        result_to=('return' if output_filepath else 'print')
+        result_to=(Key.SAVE if output_filepath else Key.SHOW)
       )
     else:
       pdt_tree = tree

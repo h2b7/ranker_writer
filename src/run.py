@@ -2,8 +2,8 @@ import os
 import json
 from typing import Optional, NoReturn
 
+from config import Tree, Key
 from utils import FileIO
-from config import Tree
 
 
 # TODO
@@ -28,7 +28,7 @@ class PageDataTree:
     return Tree.DELIMITER.join(keys)
 
   def process_result(self, result: str, result_to: str) -> Optional[NoReturn]:
-    if result_to == 'print':
+    if result_to == Key.SHOW:
         print(result)
 
     if (Tree.SEARCH_LIMIT and Tree.SEARCH_LIMIT > 0):
@@ -39,7 +39,7 @@ class PageDataTree:
 
   def tree_by_key(self, data: Optional[dict] = None, key: str = '',
                         ans: str = Tree.ROOT, list_index: Optional[int] = None,
-                        result_to: str = 'return') -> Optional[str]:
+                        result_to: str = Key.SAVE) -> Optional[str]:
     """Returns str: ex. A -> B -> C -> *key
     """
     if data is None:
@@ -51,7 +51,7 @@ class PageDataTree:
       for idx, item in enumerate(data):
         fnd = self.tree_by_key(item, key, ans, list_index=idx, result_to=result_to)
         if fnd:
-          if (result_to == 'return'):
+          if (result_to == Key.SAVE):
             return fnd
           self.process_result(fnd, result_to)
           continue
@@ -61,7 +61,7 @@ class PageDataTree:
       for data_key, data_value in data.items():
         if data_key == key:
           fnd = self.join_tree(ans, data_key, list_index)
-          if (result_to == 'return'):
+          if (result_to == Key.SAVE):
             return fnd
           self.process_result(fnd, result_to)
           continue
@@ -77,7 +77,7 @@ class PageDataTree:
           list_index=list_index, result_to=result_to
         )
         if fnd:
-          if (result_to == 'return'):
+          if (result_to == Key.SAVE):
             return fnd
           self.process_result(fnd, result_to)
 
