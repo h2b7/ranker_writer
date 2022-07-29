@@ -98,6 +98,25 @@ python src/run.py
 	- [x] no need to test for writing
 	- [x] raising an error `FileNotFoundError` for not valid input filepath
 
+#### CLI
+- [0] Input
+	- [x] json file (validates: with or without '.json' extension)
+- [ ] Key
+	- [x] search
+		- [x] string `str`
+	- [ ] filter
+		- [ ] must have
+	- [x] output
+		- [x] `print` (stdout)
+		- [x] `return` (to save)
+- [ ] Limit
+	- [x] `print` limit
+	- [ ] `return` limit
+- [ ] Output
+	- [ ] json file
+		- [x] new file (rewrites)
+		- [ ] append to the file
+
 Coding process: https://youtu.be/DkBAIKMN7x0
 
 #### License

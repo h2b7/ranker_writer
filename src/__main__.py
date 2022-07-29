@@ -22,10 +22,10 @@ def main(input_filepath: str, output_filepath: str,
       Tree.SEARCH_LIMIT = limit
 
     if key:
-      if limit:
-        pdt_tree = pdt.tree_by_key(key=key, result_to='print')
-      else:
-        pdt_tree = pdt.tree_by_key(key=key, result_to='return')
+      pdt_tree = pdt.tree_by_key(
+        key=key,
+        result_to=('return' if output_filepath else 'print')
+      )
     else:
       pdt_tree = tree
 
