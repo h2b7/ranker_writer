@@ -99,23 +99,17 @@ python src/run.py
 	- [x] raising an error `FileNotFoundError` for not valid input filepath
 
 #### CLI
-- [0] Input
-	- [x] json file (validates: with or without '.json' extension)
+- [x] Input
+	- [ ] json file (validates: with or without '.json' extension)
 - [ ] Key
-	- [x] search
-		- [x] string `str`
-	- [ ] filter
-		- [ ] must have
-	- [x] output
-		- [x] `print` (stdout)
-		- [x] `return` (to save)
+	- [x] search: `str`
+	- [ ] filter: `key`
+	- [x] result (config.py[Key]): `print`, `return`
 - [ ] Limit
-	- [x] `print` limit
-	- [ ] `return` limit
+	- [x] `print`
+	- [ ] `return`
 - [ ] Output
-	- [ ] json file
-		- [x] new file (rewrites)
-		- [ ] append to the file
+	- [ ] json file: `[w]rite`, `[a]ppend`
 
 Coding process: https://youtu.be/DkBAIKMN7x0
 
