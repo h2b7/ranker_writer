@@ -29,6 +29,8 @@ class PageDataTree:
 
   def process_result(self, result: str, result_to: str) -> Optional[NoReturn]:
     if result_to == Key.SHOW:
+        if Tree.SEARCH_FILTER_KEY and (Tree.SEARCH_FILTER_KEY not in result):
+          return
         print(result)
 
     if (Tree.SEARCH_LIMIT and Tree.SEARCH_LIMIT > 0):
