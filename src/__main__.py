@@ -12,7 +12,7 @@ from run import PageDataTree
 
 
 def main(input_filepath: str, output_filepath: str,
-         key: str, tree: str, limit: Optional[int]):
+         key: str, tree: str, limit: Optional[int], filter_key: str):
     file_io = FileIO(input_filepath)
     file_data = file_io.load()
 
@@ -20,6 +20,7 @@ def main(input_filepath: str, output_filepath: str,
 
     if limit:
       Tree.SEARCH_LIMIT = limit
+      Tree.SEARCH_FILTER = filter_key
 
     if key:
       pdt_tree = pdt.tree_by_key(
@@ -43,6 +44,7 @@ if __name__ == '__main__':
   parser.add_argument('-k', type=str, help='[k]ey to search (generate) tree for')
   parser.add_argument('-t', type=str, help='[t]ree to save the data from')
   parser.add_argument('-l', type=int, help='[l]limit stdout')
+  parser.add_argument('-f', type=int, help='[f]ilter stdout: set must have key')
   args = parser.parse_args()
 
   input_filepath = args.i
@@ -50,6 +52,7 @@ if __name__ == '__main__':
   key = args.k
   tree = args.t
   limit = args.l
+  filter_key = args.f
 
   if not input_filepath:
     print('Input filepath required')
@@ -58,4 +61,4 @@ if __name__ == '__main__':
     print('Key or Tree is required')
     exit()
 
-  main(input_filepath, output_filepath, key, tree, limit)
+  main(input_filepath, output_filepath, key, tree, limit, filter_key)

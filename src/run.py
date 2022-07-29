@@ -28,12 +28,10 @@ class PageDataTree:
     return Tree.DELIMITER.join(keys)
 
   def process_result(self, result: str, result_to: str) -> Optional[NoReturn]:
-    # NOTE: python's new feature
-    match result_to:
-      case 'print':
+    if result_to == 'print':
         print(result)
 
-    if Tree.SEARCH_LIMIT:
+    if (Tree.SEARCH_LIMIT and Tree.SEARCH_LIMIT > 0):
       Tree.SEARCH_LIMIT -= 1
 
     if Tree.SEARCH_LIMIT == 0:

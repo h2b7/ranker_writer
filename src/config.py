@@ -9,4 +9,5 @@ class Tree:
   ROOT = 'root'
   DELIMITER = ' -> '
   LIST_INDEX_WRAPPER = "[{index}]"
-  SEARCH_LIMIT = None
+  SEARCH_LIMIT = -1
+  SEARCH_FILTER = ''
