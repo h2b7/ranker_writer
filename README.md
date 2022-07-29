@@ -103,13 +103,14 @@ python src/run.py
 	- [ ] json file (validates: with or without '.json' extension)
 - [ ] Key
 	- [x] search: `str`
-	- [ ] filter: `key`
+	- [ ] filter: `key` (-fk), `value` (-fv)
 	- [x] result (config.py[Key]): `print`, `return`
 - [ ] Limit
 	- [x] `print`
 	- [ ] `return`
 - [ ] Output
 	- [ ] json file: `[w]rite`, `[a]ppend`
+	- [ ] `print`: '\*'
 
 Coding process: https://youtu.be/DkBAIKMN7x0
 

@@ -11,16 +11,11 @@ from utils import FileIO
 from run import PageDataTree
 
 
-def main(input_filepath: str, output_filepath: str,
-         key: str, tree: str, limit: Optional[int], filter_key: str):
+def main(input_filepath: str, output_filepath: str, key: str, tree: str):
     file_io = FileIO(input_filepath)
     file_data = file_io.load()
 
     pdt = PageDataTree(file_data)
-
-    if limit:
-      Tree.SEARCH_LIMIT = limit
-      Tree.SEARCH_FILTER = filter_key
 
     if key:
       pdt_tree = pdt.tree_by_key(
@@ -44,15 +39,14 @@ if __name__ == '__main__':
   parser.add_argument('-k', type=str, help='[k]ey to search (generate) tree for')
   parser.add_argument('-t', type=str, help='[t]ree to save the data from')
   parser.add_argument('-l', type=int, help='[l]limit stdout')
-  parser.add_argument('-f', type=int, help='[f]ilter stdout: set must have key')
+  parser.add_argument('-fk', type=str, help='[f]ilter stdout by must have `key`')
+  parser.add_argument('-fv', type=int, help='[f]ilter stdout by must have `value`')
   args = parser.parse_args()
 
   input_filepath = args.i
   output_filepath = args.o
   key = args.k
   tree = args.t
-  limit = args.l
-  filter_key = args.f
 
   if not input_filepath:
     print('Input filepath required')
@@ -61,4 +55,8 @@ if __name__ == '__main__':
     print('Key or Tree is required')
     exit()
 
-  main(input_filepath, output_filepath, key, tree, limit, filter_key)
+  Tree.SEARCH_LIMIT = args.l or Tree.SEARCH_LIMIT
+  Tree.SEARCH_FILTER_KEY = args.fk or Tree.SEARCH_FILTER_KEY
+  Tree.SEARCH_FILTER_VALUE = args.fv or Tree.SEARCH_FILTER_VALUE
+
+  main(input_filepath, output_filepath, key, tree)
