@@ -25,22 +25,23 @@ def main(input_filepath: str, output_filepath: str, key: str, tree: str) -> Opti
     else:
       pdt_tree = tree
 
-    if output_filepath:
-      # use parsed (generated) tree to get the data (value for `key`)
-      if output_filepath == FD.STDOUT:
-        for tree in pdt_tree:
-          if tree:
-            print(tree)
-            # TODO:
-            # tree_data = pdt.data_by_tree(tree)
-            # print(tree_data)
-        exit()
+    for tree in pdt_tree:
+      if not tree:
+        continue
 
-      raise NotImplementedError()
+      if output_filepath:
+        # use parsed (generated) tree to get the data (value for `key`)
+        if output_filepath == FD.STDOUT:
+          print(tree)
+          # TODO:
+          # tree_data = pdt.data_by_tree(tree)
+          # print(tree_data)
+      else:
+        raise NotImplementedError()
 
-      tree_data = pdt.data_by_tree(pdt_tree)
+        tree_data = pdt.data_by_tree(pdt_tree)
 
-      file_io.dump(tree_data, output_filepath)
+        file_io.dump(tree_data, output_filepath)
 
 
 if __name__ == '__main__':
