@@ -3,6 +3,7 @@
 
 import argparse
 from typing import Optional
+from pprint import pprint
 
 # TODO: FD
 from config import FD, Tree, Key
@@ -23,23 +24,20 @@ def main(input_filepath: str, output_filepath: str, key: str, tree: str) -> Opti
         result_to=(Key.SAVE if output_filepath else Key.SHOW)
       )
     else:
-      pdt_tree = tree
+      pdt_tree = (tree,)
 
     for tree in pdt_tree:
       if not tree:
         continue
 
+      tree_data = pdt.data_by_tree(tree)
+
       if output_filepath:
-        # use parsed (generated) tree to get the data (value for `key`)
-        tree_data = pdt.data_by_tree(tree)
         if output_filepath == FD.STDOUT:
           print('>>>', tree)
-          print('<<<', tree_data)
+          pprint(tree_data)
           print()
-      else:
-        raise NotImplementedError()
-
-        tree_data = pdt.data_by_tree(pdt_tree)
+          continue
 
         file_io.dump(tree_data, output_filepath)
 
