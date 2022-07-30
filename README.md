@@ -43,6 +43,12 @@ python src/__main__.py -i <input_filepath> -k user # -l <search_limit:int>
 
 # save data by tree to the `output_filepath`
 python src/__main__.py -i <input_filepath> -t 'root -> ...' -o <output_filepath>
+
+# Search for `key` (-k), filter by `key` (-fk)
+python src/__main__.py -i <input_filepath> -k user -fk id
+
+# Search for `key` (-k), filter by `key` (-fk), print the value for `tree`
+python src/__main__.py -i <input_filepath> -k user -fk id -o '*'
 ```
 
 #### Dependencies

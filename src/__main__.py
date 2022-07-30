@@ -31,11 +31,11 @@ def main(input_filepath: str, output_filepath: str, key: str, tree: str) -> Opti
 
       if output_filepath:
         # use parsed (generated) tree to get the data (value for `key`)
+        tree_data = pdt.data_by_tree(tree)
         if output_filepath == FD.STDOUT:
-          print(tree)
-          # TODO:
-          # tree_data = pdt.data_by_tree(tree)
-          # print(tree_data)
+          print('>>>', tree)
+          print('<<<', tree_data)
+          print()
       else:
         raise NotImplementedError()
 

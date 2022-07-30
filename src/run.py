@@ -72,7 +72,7 @@ class PageDataTree:
         yield from self.tree_by_key(
           data_value, key,
           self.join_tree(ans, data_key, list_index),
-          list_index=list_index, result_to=result_to
+          result_to=result_to
         )
 
   def data_by_tree(self, tree: str) -> dict:
