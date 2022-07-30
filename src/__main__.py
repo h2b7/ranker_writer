@@ -34,10 +34,13 @@ def main(input_filepath: str, output_filepath: str, key: str, tree: str) -> Opti
 
       if output_filepath:
         if output_filepath == FD.STDOUT:
-          print('>>>', tree)
+          print(tree)
           pprint(tree_data)
           print()
           continue
+
+        if key:
+          raise NotImplementedError('Use `-t` flag to dump a value for `tree`')
 
         file_io.dump(tree_data, output_filepath)
 

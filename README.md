@@ -49,6 +49,9 @@ python src/__main__.py -i <input_filepath> -k user -fk id
 
 # Search for `key` (-k), filter by `key` (-fk), print the value for `tree`
 python src/__main__.py -i <input_filepath> -k user -fk id -o '*'
+
+# Print the value for `tree`
+python src/__main__.py -i <input_filepath> -t 'root -> users -> [0]' -o '*'
 ```
 
 #### Dependencies
