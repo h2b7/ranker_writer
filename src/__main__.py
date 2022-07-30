@@ -5,13 +5,13 @@ import argparse
 from typing import Optional
 
 # TODO: FD
-from config import Tree, Key
+from config import FD, Tree, Key
 from utils import FileIO
 
 from run import PageDataTree
 
 
-def main(input_filepath: str, output_filepath: str, key: str, tree: str):
+def main(input_filepath: str, output_filepath: str, key: str, tree: str) -> Optional[NotImplementedError]:
     file_io = FileIO(input_filepath)
     file_data = file_io.load()
 
@@ -27,6 +27,17 @@ def main(input_filepath: str, output_filepath: str, key: str, tree: str):
 
     if output_filepath:
       # use parsed (generated) tree to get the data (value for `key`)
+      if output_filepath == FD.STDOUT:
+        for tree in pdt_tree:
+          if tree:
+            print(tree)
+            # TODO:
+            # tree_data = pdt.data_by_tree(tree)
+            # print(tree_data)
+        exit()
+
+      raise NotImplementedError()
+
       tree_data = pdt.data_by_tree(pdt_tree)
 
       file_io.dump(tree_data, output_filepath)
@@ -55,7 +66,10 @@ if __name__ == '__main__':
     print('Key or Tree is required')
     exit()
 
-  Tree.SEARCH_LIMIT = args.l or Tree.SEARCH_LIMIT
+  if args.l:
+    # decrements the limit befor returning the `tree`
+    Tree.SEARCH_LIMIT = (args.l+1)
+
   Tree.SEARCH_FILTER_KEY = args.fk or Tree.SEARCH_FILTER_KEY
   Tree.SEARCH_FILTER_VALUE = args.fv or Tree.SEARCH_FILTER_VALUE
 
