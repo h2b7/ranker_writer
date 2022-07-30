@@ -68,19 +68,23 @@ python src/run.py
 
 #### Script structure
 ```
+# tree -I __pycache__ -I env
 .
 ├── src
 │   ├── __init__.py
+│   ├── __main__.py
 │   ├── config.py
 │   ├── utils.py
 │   └── run.py
 ├── tests
-│   ├── __init__.py
-│   └── test_page_data_tree.py
+│   ├── __init__.py
+│   └── test_page_data_tree.py
 ├── data
-│   ├── key_content-ignore_me.json
-│   └── ranker_writer-ignore_me.json
+│   ├── ranker_writer-ignore_me.json
+│   └── ranker_writer_user_content-ignore_me.json
+├── LICENSE
 ├── README.md
+├── UPDATES.txt
 ├── CONTRIBUTORS.md
 └── requirements.txt
 ```
@@ -105,7 +109,7 @@ python src/run.py
 - [ ] Key
 	- [x] search: `str`
 	- [x] filter `tree` by must have `key` (-fk)
-	- [ ] filter `tree` by must have `value` (-fv)
+	- [x] filter `tree` by must have `value` (-fv)
 	- [x] result (config.py[Key]): `print`, `return`
 - [ ] Limit (only `key`)
 	- [x] `print`

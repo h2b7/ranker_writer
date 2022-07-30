@@ -53,7 +53,7 @@ if __name__ == '__main__':
   parser.add_argument('-t', type=str, help='[t]ree to save the data from')
   parser.add_argument('-l', type=int, help='[l]limit stdout')
   parser.add_argument('-fk', type=str, help='[f]ilter stdout by must have `key`')
-  parser.add_argument('-fv', type=int, help='[f]ilter stdout by must have `value`')
+  parser.add_argument('-fv', type=str, help='[f]ilter stdout by must have `value`')
   args = parser.parse_args()
 
   input_filepath = args.i

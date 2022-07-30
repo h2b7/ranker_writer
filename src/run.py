@@ -1,6 +1,6 @@
 import os
 import json
-from typing import Optional, Union, NoReturn
+from typing import Optional, Union, NoReturn, Any
 
 from config import Tree, Key
 from utils import FileIO
@@ -27,9 +27,16 @@ class PageDataTree:
 
     return Tree.DELIMITER.join(keys)
 
-  def process_result(self, result: str, result_to: str) -> Union[Optional[str], NoReturn]:
+  def process_result(self, result: str, result_to: str, result_value: str) -> Union[Optional[str], NoReturn]:
+    # TODO: rename parameters name
     if Tree.SEARCH_FILTER_KEY and (Tree.SEARCH_FILTER_KEY not in result):
-      return
+      return None
+
+    if Tree.SEARCH_FILTER_VALUE:
+      if not isinstance(result_value, (int, str)):
+        return None
+      if str(result_value) != Tree.SEARCH_FILTER_VALUE:
+        return None
 
     if (Tree.SEARCH_LIMIT and Tree.SEARCH_LIMIT > 0):
       Tree.SEARCH_LIMIT -= 1
@@ -61,7 +68,7 @@ class PageDataTree:
       for data_key, data_value in data.items():
         if data_key == key:
           fnd = self.join_tree(ans, data_key, list_index)
-          yield self.process_result(fnd, result_to)
+          yield self.process_result(fnd, result_to, data_value)
           continue
 
         if data_key is None:
