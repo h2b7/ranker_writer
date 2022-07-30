@@ -10,7 +10,7 @@ Script to get a json `key_tree` by `key` and saving the content of the `key` by 
 
 import os
 
-from config import FD
+from config import FD, Key
 from utils import FileIO
 from run import PageDataTree
 
@@ -23,8 +23,8 @@ file_io = FileIO(i_filepath)
 file_data = file_io.load()
 
 pdt = PageDataTree(file_data)
-# NOTE: returns the first found `tree`, use `result_to='print'` to print all trees
-pdt_tree = pdt.tree_by_key(key='user', result_to='return')
+# NOTE: returns the first found `tree`, use `result_to=Key.SHOW` to print all trees
+pdt_tree = pdt.tree_by_key(key='user', result_to=Key.SAVE)
 
 # use parsed (generated) tree to get the data (value for `key`)
 user_data = pdt.data_by_tree(pdt_tree)
