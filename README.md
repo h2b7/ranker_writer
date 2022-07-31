@@ -92,7 +92,7 @@ pytest -V	# 6.2.5
 	- [x] filter `tree` by must have `value` (-fv)
 		- [ ] multiple (-fv)
 	- [x] result (config.py[Key]): `print`, `return`
-- [ ] Limit (only `key`)
+- [x] Limit
 	- [x] `print`
 	- [x] `return`
 - [ ] Output
@@ -103,7 +103,6 @@ pytest -V	# 6.2.5
 Coding process: https://youtu.be/DkBAIKMN7x0
 
 #### License
-
 GNU GPLv3
 <br />
 Copyright (c) 2022 Nodiru Gaji (@ames0k0)
