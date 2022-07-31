@@ -4,6 +4,11 @@ Script to generate a json `tree` for `key` and dumping the `value` of the `key` 
 {"a": 1, "b": 2, "d": [{"c": 3}]}	# 'root -> d -> [0] -> c'
 ```
 
+#### Start
+```bash
+pip install jsontp
+```
+
 #### Example (API)
 ```python3
 from jsontp import PageDataTree
