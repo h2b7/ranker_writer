@@ -1,6 +1,6 @@
 import os
 import json
-from typing import Optional, Union, NoReturn, Any
+from typing import Optional, Union, NoReturn, Any, Generator
 
 from config import Tree, Key
 from utils import FileIO
@@ -27,7 +27,9 @@ class PageDataTree:
 
     return Tree.DELIMITER.join(keys)
 
-  def process_result(self, result: str, result_to: str, result_value: str) -> Union[Optional[str], NoReturn]:
+  def process_result(self, result: str,
+                           result_to: str,
+                           result_value: str) -> Union[Optional[str], NoReturn]:
     # TODO: rename parameters name
     if Tree.SEARCH_FILTER_KEY and (Tree.SEARCH_FILTER_KEY not in result):
       return None
@@ -51,9 +53,9 @@ class PageDataTree:
       return result
 
   def tree_by_key(self, data: Optional[dict] = None, key: str = '',
-                        ans: str = Tree.ROOT, list_index: Optional[int] = None,
-                        result_to: str = Key.SAVE) -> Optional[str]:
-    """Returns str: ex. A -> B -> C -> *key
+                        gen_tree: str = Tree.ROOT, list_index: Optional[int] = None,
+                        result_to: str = Key.SAVE) -> Generator[str, None, None]:
+    """Yields str: ex. A -> B -> C -> *key
     """
     if data is None:
       data = self.data
@@ -61,14 +63,15 @@ class PageDataTree:
     if isinstance(data, list):
       for idx, item in enumerate(data):
         yield from self.tree_by_key(
-          item, key, ans, list_index=idx, result_to=result_to
+          item, key, gen_tree, list_index=idx, result_to=result_to
         )
 
     if isinstance(data, dict):
       for data_key, data_value in data.items():
+        tree = self.join_tree(gen_tree, data_key, list_index)
+
         if data_key == key:
-          fnd = self.join_tree(ans, data_key, list_index)
-          yield self.process_result(fnd, result_to, data_value)
+          yield self.process_result(tree, result_to, data_value)
           continue
 
         if data_key is None:
@@ -77,9 +80,7 @@ class PageDataTree:
           continue
 
         yield from self.tree_by_key(
-          data_value, key,
-          self.join_tree(ans, data_key, list_index),
-          result_to=result_to
+          data_value, key, tree, result_to=result_to
         )
 
   def data_by_tree(self, tree: str) -> dict:
