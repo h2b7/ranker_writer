@@ -2,8 +2,8 @@ import os
 import json
 from typing import Optional, Union, NoReturn, Any, Generator
 
-from config import Tree, Key
-from utils import FileIO
+from .config import Tree, Key
+from .utils import FileIO
 
 
 # TODO

@@ -5,11 +5,10 @@ import argparse
 from typing import Optional
 from pprint import pprint
 
-# TODO: FD
-from config import FD, Tree, Key
-from utils import FileIO
+from .config import FD, Tree, Key
+from .utils import FileIO
 
-from run import PageDataTree
+from .run import PageDataTree
 
 
 def main(input_filepath: str, output_filepath: str, key: str, tree: str) -> Optional[NotImplementedError]:
