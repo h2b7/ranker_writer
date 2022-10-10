@@ -108,6 +108,6 @@ pytest -V	# 6.2.5
 Coding process: https://youtu.be/DkBAIKMN7x0
 
 #### License
-GNU GPLv3
+MIT
 <br />
-Copyright (c) 2022 Nodiru Gaji (@ames0k0)
+Copyright (c) 2022 srcown://ames0k0
