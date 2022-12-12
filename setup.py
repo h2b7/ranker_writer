@@ -21,7 +21,7 @@ setup(
   url='https://pypi.org/project/jsontp',
   download_url='https://github.com/ames0k0/jsontp',
   packages=['jsontp'],
-  license='GNU General Public License v3 (GPLv3)',
+  license='License :: OSI Approved :: MIT License',
   classifiers=[
     'Programming Language :: Python :: 3.10',
   ],
