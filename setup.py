@@ -16,7 +16,7 @@ setup(
   description='JSON Tree Parser',
   long_description=long_description,
   long_description_content_type='text/markdown',
-  author='Nodiru Gaji',
+  author='Nodaa Gaji',
   author_email='c0d3r.nodiru.gaji@gmail.com',
   url='https://pypi.org/project/jsontp',
   download_url='https://github.com/ames0k0/jsontp',

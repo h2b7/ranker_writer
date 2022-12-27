@@ -110,4 +110,4 @@ Coding process: https://youtu.be/DkBAIKMN7x0
 #### License
 MIT
 <br />
-Copyright (c) 2022 srcown://ames0k0
+Copyright (c) 2022 Nodaa Gaji
