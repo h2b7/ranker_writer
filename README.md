@@ -7,6 +7,8 @@ Script to generate a json `tree` for `key` and dumping the `value` of the `key` 
 #### Start
 ```bash
 pip install jsontp
+# or
+pip install git+https://github.com/ames0k0/jsontp
 ```
 
 #### Example (API)
